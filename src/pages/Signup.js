@@ -51,9 +51,15 @@ const Signup = () => {
         },
         validate,
         onSubmit: values => {
-            alert(JSON.stringify(values, null, 2));
+            // alert(JSON.stringify(values, null, 2));
+            firebase.register(values.email, values.password);
+            console.log(firebase);
         },
     });
+
+    const handleGoogleButtonClick = () => {
+        firebase.useGoogleProvider();
+    }
 
     return (
         <Container
@@ -105,13 +111,15 @@ const Signup = () => {
                             variant="contained"
                             color="primary"
                             fullWidth
-                            type='submit'>Submit</Button>
+                            type='submit'>Register</Button>
                     </Grid>
                     <Grid item xs={12}>
                         <Button
                             variant="contained"
                             color="primary"
-                            fullWidth>Sign Up With Google</Button>
+                            fullWidth
+                            onClick={handleGoogleButtonClick}
+                        >Sign Up With Google</Button>
                     </Grid>
                 </Grid>
             </form>
