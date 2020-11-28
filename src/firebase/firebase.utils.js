@@ -19,6 +19,7 @@ const config = process.env.NODE_ENV === 'development' ? devConfig : prodConfig;
 
 class Firebase {
     constructor() {
+        //TODO: add initialize check
         firebase.initializeApp(config);
         this.firebaseAuth = firebase.auth();
         console.log(firebase);
@@ -26,8 +27,16 @@ class Firebase {
     }
 
     // register button
-    register(email, password) {
-        this.firebaseAuth.createUserWithEmailAndPassword(email, password);
+    async register(displayName, email, password) {
+        try {
+            await this.firebaseAuth.createUserWithEmailAndPassword(email, password);
+
+            this.firebaseAuth.currentUser.updateProfile({
+                displayName
+            });
+        } catch (error) {
+            console.log(error);
+        }
     }
 
     // Sign Up with Google
