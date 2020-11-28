@@ -37,6 +37,11 @@ class Firebase {
         this.firebaseAuth.signInWithPopup(googleProvider);
     }
 
+    // Log Out/Sign Out
+    signOut() {
+        this.firebaseAuth.signOut();
+    }
+
 }
 
 export default new Firebase();
