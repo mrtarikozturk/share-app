@@ -75,11 +75,11 @@ const Signup = () => {
                             label="Display Name"
                             variant="outlined"
                             fullWidth
-                            onChange={formik.handleChange}
-                            value={formik.values.displayName}
-                            onBlur={formik.handleBlur}
+                            {...formik.getFieldProps('displayName')}
+                            error={formik.touched.displayName && formik.errors.displayName}
+                            helperText={formik.touched.displayName && formik.errors.displayName}
                         />
-                        {formik.touched.displayName && formik.errors.displayName ? <div>{formik.errors.displayName}</div> : null}
+                        {/* {formik.touched.displayName && formik.errors.displayName ? <div>{formik.errors.displayName}</div> : null} */}
                     </Grid>
                     <Grid item xs={12}>
                         <TextField
@@ -88,11 +88,11 @@ const Signup = () => {
                             label="E-mail"
                             variant="outlined"
                             fullWidth
-                            onChange={formik.handleChange}
-                            value={formik.values.email}
-                            onBlur={formik.handleBlur}
+                            {...formik.getFieldProps('email')}
+                            error={formik.touched.email && formik.errors.email}
+                            helperText={formik.touched.email && formik.errors.email}
                         />
-                        {formik.touched.email && formik.errors.email ? <div>{formik.errors.email}</div> : null}
+                        {/* {formik.touched.email && formik.errors.email ? <div>{formik.errors.email}</div> : null} */}
                     </Grid>
                     <Grid item xs={12}>
                         <TextField
@@ -103,8 +103,10 @@ const Signup = () => {
                             type='password'
                             fullWidth
                             {...formik.getFieldProps('password')}
+                            error={formik.touched.password && formik.errors.password}
+                            helperText={formik.touched.password && formik.errors.password}
                         />
-                        {formik.touched.password && formik.errors.password ? <div>{formik.errors.password}</div> : null}
+                        {/* {formik.touched.password && formik.errors.password ? <div>{formik.errors.password}</div> : null} */}
                     </Grid>
                     <Grid item xs={12}>
                         <Button
@@ -136,8 +138,8 @@ export default Signup;
   ifadesi daha pratik olmasi icin:
 
    onChange={formik.handleChange}
+   onBlur={formik.handleBlur}
     value={formik.values.displayName}
-    onBlur={formik.handleBlur}
 
     ifadelerinin yerine kullanilir.
 */
