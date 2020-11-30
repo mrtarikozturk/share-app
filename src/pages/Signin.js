@@ -1,19 +1,38 @@
 import React from "react";
-import { Button, TextField, Grid, Container } from "@material-ui/core";
+import { Button, TextField, Grid, Container, Avatar, Typography } from "@material-ui/core";
 import { makeStyles } from "@material-ui/core/styles";
+import LockOutlinedIcon from '@material-ui/icons/LockOutlined';
 import firebase from "../firebase/firebase.utils";
-import { Formik } from "formik";
+import { Formik, ErrorMessage } from "formik";
+import * as yup from 'yup';
 
-const stylesFunc = makeStyles({
+// style object
+const stylesFunc = makeStyles((theme) => ({
     wrapper: {
         marginTop: "10rem",
+        textAlign: 'center',
+        height: 'calc(100vh - 19.0625rem)',
     },
-});
+    avatar: {
+        backgroundColor: theme.palette.secondary.main,
+        margin: '1rem auto',
+    }
+}));
 
+//Form control initial values
 const initialValues = {
     email: "",
     password: "",
 };
+
+// Form validation object
+const signInValidationSchema = yup.object().shape({
+    email: yup.string()
+        .email('Invalid e-mail')
+        .required('This field is required'),
+    password: yup.string()
+        .required('No password provided.')
+});
 
 function Signin() {
     const signinStyles = stylesFunc();
@@ -23,14 +42,23 @@ function Signin() {
     };
 
     const handleFormSubmit = (values) => {
-        // alert(JSON.stringify(values, null, 2));
         firebase.signIn(values.email, values.password);
     };
 
     return (
         <Container className={signinStyles.wrapper} maxWidth="sm">
-            <Formik initialValues={initialValues} onSubmit={handleFormSubmit}>
-                {({ handleSubmit, handleChange, values }) => (
+            <Avatar className={signinStyles.avatar}>
+                <LockOutlinedIcon />
+            </Avatar>
+            <Typography variant="h4">
+                Sign In
+            </Typography>
+            <Formik
+                initialValues={initialValues}
+                onSubmit={handleFormSubmit}
+                validationSchema={signInValidationSchema}
+            >
+                {({ handleSubmit, handleChange, values, errors, handleBlur }) => (
                     <form onSubmit={handleSubmit}>
                         <Grid container spacing={3}>
                             <Grid item xs={12}>
@@ -41,6 +69,9 @@ function Signin() {
                                     fullWidth
                                     value={values.email}
                                     onChange={handleChange}
+                                    error={errors.email}
+                                    helperText={errors.email}
+                                // onBlur={handleBlur}
                                 />
                             </Grid>
                             <Grid item xs={12}>
@@ -52,6 +83,10 @@ function Signin() {
                                     fullWidth
                                     value={values.password}
                                     onChange={handleChange}
+                                    error={errors.email}
+                                    helperText={errors.email}
+                                // onBlur={handleBlur}
+
                                 />
                             </Grid>
                             <Grid item xs={12}>
@@ -83,3 +118,6 @@ function Signin() {
 }
 
 export default Signin;
+
+//TODO: Add image and singin and sign up icon. forgot link. + Password confirmation
+// TODO: https://undraw.co/search
