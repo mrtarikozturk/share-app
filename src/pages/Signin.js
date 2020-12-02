@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useState } from "react";
 import { Button, TextField, Grid, Container, Avatar, Typography } from "@material-ui/core";
 import { makeStyles } from "@material-ui/core/styles";
 import LockOutlinedIcon from '@material-ui/icons/LockOutlined';
@@ -14,9 +14,13 @@ const stylesFunc = makeStyles((theme) => ({
         height: 'calc(100vh - 19.0625rem)',
     },
     avatar: {
-        backgroundColor: theme.palette.secondary.main,
+        backgroundColor: theme.palette.primary.main,
         margin: '1rem auto',
-    }
+    },
+    signIn: {
+        margin: "1rem",
+    },
+
 }));
 
 //Form control initial values
@@ -37,12 +41,18 @@ const signInValidationSchema = yup.object().shape({
 function Signin() {
     const signinStyles = stylesFunc();
 
+    //states
+    const [loginError, setLoginError] = useState(null);
+
     const handleGoogleButtonClick = () => {
         firebase.useGoogleProvider();
     };
 
     const handleFormSubmit = (values) => {
-        firebase.signIn(values.email, values.password);
+        // firebase.signIn(values.email, values.password);
+        firebase.signIn(values.email, values.password).then(res => {
+            res ? setLoginError(res) : setLoginError(null)
+        });
     };
 
     return (
@@ -50,7 +60,7 @@ function Signin() {
             <Avatar className={signinStyles.avatar}>
                 <LockOutlinedIcon />
             </Avatar>
-            <Typography variant="h4">
+            <Typography className={signinStyles.signIn} variant="h4">
                 Sign In
             </Typography>
             <Formik
@@ -110,6 +120,7 @@ function Signin() {
                 </Button>
                             </Grid>
                         </Grid>
+                        <p style={{ textAlign: "center", color: "red" }}><small>{loginError}</small></p>
                     </form>
                 )}
             </Formik>
