@@ -1,5 +1,6 @@
 import firebase from 'firebase/app';
 import 'firebase/auth';
+import { errorHandler } from '../helper/ErrorHandler';
 
 // Development Configure
 const devConfig = {
@@ -52,8 +53,21 @@ class Firebase {
     }
 
     // Sign In/ Log In
-    signIn(email, password) {
-        this.firebaseAuth.signInWithEmailAndPassword(email, password);
+    async signIn(email, password) {
+        try {
+            await this.firebaseAuth.signInWithEmailAndPassword(email, password);
+        } catch (error) {
+            return errorHandler(error);
+        }
+    }
+
+    // forgot password
+    async forgotPassword(email) {
+        try {
+            await this.firebaseAuth.sendPasswordResetEmail(email);
+        } catch (error) {
+            return errorHandler(error);
+        }
     }
 
 }
