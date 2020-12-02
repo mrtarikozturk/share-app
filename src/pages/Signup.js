@@ -1,16 +1,26 @@
 import React from 'react';
-import { Button, TextField, Grid, Container } from '@material-ui/core';
+import { Button, TextField, Grid, Container, Typography, Avatar } from '@material-ui/core';
 import { makeStyles } from '@material-ui/core/styles';
 import { useFormik } from 'formik';
 import firebase from '../firebase/firebase.utils';
-
+import LockOutlinedIcon from "@material-ui/icons/LockOutlined";
 
 //custom style
-const styles = makeStyles({
+const styles = makeStyles((theme) => ({
     wrapper: {
-        marginTop: '10rem',
-    }
-});
+        marginTop: "10rem",
+        height: "calc(100vh - 19.0625rem)",
+        textAlign: "center",
+    },
+    avatar: {
+        margin: "1rem auto",
+        backgroundColor: theme.palette.primary.main,
+    },
+    signUp: {
+        margin: "1rem",
+    },
+}));
+
 
 const Signup = () => {
 
@@ -62,10 +72,13 @@ const Signup = () => {
     }
 
     return (
-        <Container
-            className={signupStyles.wrapper}
-            maxWidth='sm'
-        >
+        <Container className={signupStyles.wrapper} maxWidth='sm'>
+            <Avatar className={signupStyles.avatar}>
+                <LockOutlinedIcon />
+            </Avatar>
+            <Typography className={signupStyles.signUp} variant="h4">
+                Sign Up
+            </Typography>
             <form onSubmit={formik.handleSubmit}>
                 <Grid container spacing={3}>
                     <Grid item xs={12}>
